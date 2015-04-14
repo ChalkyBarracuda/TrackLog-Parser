@@ -65,10 +65,12 @@ if args.DashCommand:
 elif args.Torque:
 
     df = pd.read_csv(inputf, low_memory=False)
+    df = df.convert_objects(convert_numeric=True)
+    df = df[pd.notnull(df[' Latitude'])]
     df[' Latitude'] = ',' + df[' Latitude'].astype(str) + ',0'
     df['coords'] = df[' Longitude'].astype(str) + df[' Latitude']
     df = pd.DataFrame(df, columns=['coords'])
-    df = df.convert_objects(convert_numeric='True').dropna()
+    
     df = df.drop_duplicates(take_last=True)
 
 
